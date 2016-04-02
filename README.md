@@ -1,9 +1,9 @@
 #Snooze Wars
 
 ##General Info
-Date: Weekend of April 1, 2016
-Location: HackPrinceton2016
-Team Members: Eric Hao, Adam He, Max Schuman, Yuki Zou
+Date: Weekend of April 1, 2016  
+Location: HackPrinceton2016  
+Team Members: Eric Hao, Adam He, Max Schuman, Yuki Zou  
 
 ##Project Description
 Snooze Wars is an Android mobile application that aims to wake users up in the morning by instigating a snooze war between two users waking up at the same time.
