@@ -1,5 +1,6 @@
 package snoozewars.com.snoozewars;
 
+import android.app.DialogFragment;
 import android.content.Context;
 import android.content.Intent;
 import android.media.AudioManager;
@@ -7,6 +8,7 @@ import android.media.MediaPlayer;
 import android.media.Ringtone;
 import android.media.RingtoneManager;
 import android.net.Uri;
+import android.support.v4.app.FragmentActivity;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -38,6 +40,8 @@ public class SetAlarm extends AppCompatActivity {
     }
 
     public void confirmAlarm(View view) {
+        DialogFragment dialog = new AlarmDialogFragment();
+        dialog.show(getFragmentManager(), "alarm");
         TimePicker alarmPicker = (TimePicker) findViewById(R.id.alarmPicker);
         int hour = alarmPicker.getCurrentHour();
         int min = alarmPicker.getCurrentMinute();
