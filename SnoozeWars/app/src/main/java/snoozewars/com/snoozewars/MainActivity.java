@@ -45,9 +45,7 @@ public class MainActivity extends AppCompatActivity {
         // See https://g.co/AppIndexing/AndroidStudio for more information.
         client = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
         Button setAlarmButton = (Button) findViewById(R.id.setAlarmButton);
-        Log.d("OnCreate","OnCreate");
         if(A.isSet) {
-            Log.d("ifstatement","ifstatement");
             int h = A.hour;
             int m = A.min;
             String ampm = "AM";

@@ -51,7 +51,39 @@ public class SetAlarm extends AppCompatActivity {
         TimePicker alarmPicker = (TimePicker) findViewById(R.id.alarmPicker);
         int hour = alarmPicker.getCurrentHour();
         int min = alarmPicker.getCurrentMinute();
+        int total;
         act.A.setAlarm(hour,min);
+        Calendar c = Calendar.getInstance();
+
+        int cHour = c.get(Calendar.HOUR_OF_DAY);
+        Log.d("hour",Integer.toString((cHour)));
+
+        int cMin = c.get(Calendar.MINUTE);
+        Log.d("min",Integer.toString((cMin)));
+
+        if(hour == cHour && min == cMin) {
+            total = 0;
+        }
+        else {
+
+            int cSec = c.get(Calendar.SECOND);
+            Log.d("sec", Integer.toString((cSec)));
+
+            int cMil = c.get(Calendar.MILLISECOND);
+            Log.d("mil", Integer.toString((cMil)));
+
+            int aTime = (60 * hour + min) * 60 * 1000; //alarm time in milliseconds
+            int cTime = ((60 * cHour + cMin) * 60 + cSec) * 1000 + cMil; //current time in milliseconds
+
+            Log.d("aTime", Integer.toString(aTime));
+            Log.d("cTime", Integer.toString(cTime));
+            if (cTime > aTime) {
+                total = 24 * 60 * 60 * 1000 - cTime + aTime;
+            } else {
+                total = aTime - cTime;
+            }
+        }
+        Log.d("total",Integer.toString(total)); //in milliseconds
         Intent startApplicationIntent = new Intent(getBaseContext(), StartAlarm.class);
         //startApplicationIntent.setFlags(PendingIntent.FLAG_UPDATE_CURRENT);
 
@@ -59,7 +91,7 @@ public class SetAlarm extends AppCompatActivity {
                 startApplicationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 
         AlarmManager mgr = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
-        mgr.set(AlarmManager.RTC, System.currentTimeMillis() + 20000, intent);
+        mgr.set(AlarmManager.RTC, System.currentTimeMillis() + total, intent);
         Intent intent2 = new Intent(this, MainActivity.class);
         startActivity(intent2);
     }
