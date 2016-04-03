@@ -23,6 +23,10 @@ class AlarmDevice:
 		self.partner = partner
 
 def findPair(ad, lst):
+	ad.partner = None;
+	for i in xrange(len(lst)):
+		if lst[i].get_partner() == ad:
+			lst[i].partner = None;
 	for i in xrange(len(lst)):
 		if ad.get_time() == lst[i].get_time() and lst[i].get_partner() is None:
 			ad.setPartner(lst[i])

@@ -16,6 +16,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
@@ -43,6 +44,12 @@ public class StartAlarm extends AppCompatActivity {
         setContentView(R.layout.activity_start_alarm);
 
         try {
+            serverSocket = new ServerSocket(client_PORT);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        try {
             alert =  RingtoneManager.getDefaultUri(RingtoneManager.TYPE_RINGTONE);
             mMediaPlayer = new MediaPlayer();
             mMediaPlayer.setDataSource(this, alert);
@@ -62,7 +69,9 @@ public class StartAlarm extends AppCompatActivity {
             public void onClick(View v) {
                 new snoozeTask().execute();
                 mMediaPlayer.stop();
-                finishActivity(0);
+                finish();
+                new listeningTask().execute();
+                Log.d("this", "ran?");
             }
         });
     }
@@ -81,10 +90,6 @@ public class StartAlarm extends AppCompatActivity {
             }
             return null;
         }
-
-        protected void onPostExecute(String result) {
-            new listeningTask().execute();
-        }
     }
 
     private class listeningTask extends AsyncTask<Void, Void, String> {
@@ -102,14 +107,20 @@ public class StartAlarm extends AppCompatActivity {
             return "oops";
         }
 
-        /*protected void onPostExecute(String result) {
-            if (result == "snooze") {
-                Intent intent = new Intent(this, StartAlarm.class);
+        protected void onPostExecute(String result) {
+            Log.d("received", result);
+            Log.d("received", result.substring(0, 10));
+            if ((result.substring(0, 10)).compareTo("Unsnoozed!") == 0) {
+                try {
+                    serverSocket.close();
+                    Log.d("listening","serverSocket Active");
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                Log.d("done listening","restart activity");
+                Intent intent = getIntent();
                 startActivity(intent);
             }
-        }*/
+        }
     }
-
-
-
 }
