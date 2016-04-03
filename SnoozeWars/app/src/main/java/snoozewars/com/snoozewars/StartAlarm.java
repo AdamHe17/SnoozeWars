@@ -3,7 +3,12 @@ package snoozewars.com.snoozewars;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
+import android.content.Context;
 import android.content.DialogInterface;
+import android.media.AudioManager;
+import android.media.MediaPlayer;
+import android.media.RingtoneManager;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -15,22 +20,29 @@ import android.view.View;
 
 
 public class StartAlarm extends AppCompatActivity {
+    Uri alert;
+    MediaPlayer mMediaPlayer;
+    AudioManager audioManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_start_alarm);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+        DialogFragment dialog = new AlarmDialogFragment();
+        dialog.show(getFragmentManager(), "alarm");
+        try {
+            alert =  RingtoneManager.getDefaultUri(RingtoneManager.TYPE_RINGTONE);
+            mMediaPlayer = new MediaPlayer();
+            mMediaPlayer.setDataSource(this, alert);
+            audioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
+            if (audioManager.getStreamVolume(AudioManager.STREAM_RING) != 0) {
+                mMediaPlayer.setAudioStreamType(AudioManager.STREAM_RING);
+                mMediaPlayer.setLooping(true);
+                mMediaPlayer.prepare();
+                mMediaPlayer.start();
             }
-        });
+        } catch(Exception e) {
+            e.printStackTrace();
+        }
     }
 
 }

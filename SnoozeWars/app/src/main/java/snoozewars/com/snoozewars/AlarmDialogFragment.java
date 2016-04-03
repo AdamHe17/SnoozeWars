@@ -22,6 +22,7 @@ public class AlarmDialogFragment extends DialogFragment {
         builder.setView(inflater.inflate(R.layout.dialog_layout, null))
                 .setNeutralButton("Snooze", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
+                        getActivity().
                         dialog.dismiss();
                     }
                 });

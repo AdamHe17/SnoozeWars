@@ -1,6 +1,8 @@
 package snoozewars.com.snoozewars;
 
+import android.app.AlarmManager;
 import android.app.DialogFragment;
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.media.AudioManager;
@@ -40,12 +42,20 @@ public class SetAlarm extends AppCompatActivity {
     }
 
     public void confirmAlarm(View view) {
-        DialogFragment dialog = new AlarmDialogFragment();
-        dialog.show(getFragmentManager(), "alarm");
         TimePicker alarmPicker = (TimePicker) findViewById(R.id.alarmPicker);
         int hour = alarmPicker.getCurrentHour();
         int min = alarmPicker.getCurrentMinute();
-        Log.d("hour: ", Integer.toString(hour));
+
+        Intent startApplicationIntent = new Intent(getBaseContext(), StartAlarm.class);
+        //startApplicationIntent.setFlags(PendingIntent.FLAG_UPDATE_CURRENT);
+
+        PendingIntent intent = PendingIntent.getActivity(getApplication().getBaseContext(), 0,
+                startApplicationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+
+        AlarmManager mgr = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+        mgr.set(AlarmManager.RTC, System.currentTimeMillis() + 20000, intent);
+
+        /*Log.d("hour: ", Integer.toString(hour));
         Log.d("min: ", Integer.toString(min));
         act.A.setAlarm(hour, min);
         Intent intent = new Intent(this, MainActivity.class);
@@ -65,7 +75,9 @@ public class SetAlarm extends AppCompatActivity {
                 }
             } catch(Exception e) {
             }
-        }
+        }*/
+
+
 
     }
 
