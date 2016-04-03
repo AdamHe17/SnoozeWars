@@ -17,10 +17,8 @@ import com.google.android.gms.common.api.GoogleApiClient;
 
 import java.util.Calendar;
 
-
 public class MainActivity extends AppCompatActivity {
     public static Alarm A = new Alarm();
-
 
     public void checkAlarm() {
         Calendar c = Calendar.getInstance();
