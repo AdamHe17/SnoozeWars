@@ -1,5 +1,6 @@
 package snoozewars.com.snoozewars;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
@@ -43,6 +44,14 @@ public class AlarmDialogFragment extends DialogFragment {
         AlertDialog alertDialog = builder.create();
         alertDialog.setCanceledOnTouchOutside(false);
         return alertDialog;
+    }
+
+    @Override
+    public void onDismiss(final DialogInterface dialog) {
+        final Activity activity = getActivity();
+        if (activity instanceof AlarmDialogDismissListener) {
+            ((AlarmDialogDismissListener) activity).handleDialogClose(dialog);
+        }
     }
 
     private class snoozeTask extends AsyncTask<Void, Void, String> {

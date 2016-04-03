@@ -19,7 +19,7 @@ import android.view.View;
 
 
 
-public class StartAlarm extends AppCompatActivity {
+public class StartAlarm extends AppCompatActivity implements AlarmDialogDismissListener {
     Uri alert;
     MediaPlayer mMediaPlayer;
     AudioManager audioManager;
@@ -44,5 +44,11 @@ public class StartAlarm extends AppCompatActivity {
             e.printStackTrace();
         }
     }
+
+    public void handleDialogClose(DialogInterface dialog){
+        mMediaPlayer.stop();
+    }
+
+
 
 }
