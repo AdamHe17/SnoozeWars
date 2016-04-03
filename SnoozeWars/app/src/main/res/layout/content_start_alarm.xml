@@ -8,9 +8,10 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
-        android:padding="5sp"
+        android:paddingLeft="55sp"
+        android:paddingRight="55sp"
         android:background="#ff000000"
-        android:textSize="40sp"
+        android:textSize="50sp"
         android:textColor="#ffffffff"
         android:text="@string/dialog_head"
         android:id="@+id/dialogTitle" />
@@ -20,5 +21,6 @@
         android:layout_height="wrap_content"
         android:text="@string/button_snooze"
         android:textColor="#33b5e5"
+        android:background="#ffffffff"
         style="?android:attr/borderlessButtonStyle" />
 </LinearLayout>
