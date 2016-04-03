@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.support.v7.app.AppCompatActivity;
+import android.widget.Button;
 
 import com.google.android.gms.appindexing.Action;
 import com.google.android.gms.appindexing.AppIndex;
@@ -30,6 +31,8 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+
+
     /**
      * ATTENTION: This was auto-generated to implement the App Indexing API.
      * See https://g.co/AppIndexing/AndroidStudio for more information.
@@ -43,6 +46,24 @@ public class MainActivity extends AppCompatActivity {
         // ATTENTION: This was auto-generated to implement the App Indexing API.
         // See https://g.co/AppIndexing/AndroidStudio for more information.
         client = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
+        Button setAlarmButton = (Button) findViewById(R.id.setAlarmButton);
+        Log.d("OnCreate","OnCreate");
+        if(A.isSet) {
+            Log.d("ifstatement","ifstatement");
+            int h = A.hour;
+            int m = A.min;
+            String ampm = "AM";
+            if(h > 12) {
+                ampm = "PM";
+                h -= 12;
+            }
+            else if(h == 0)
+                h = 12;
+            if(m < 10)
+                setAlarmButton.setText(Integer.toString(h)+":0"+Integer.toString(m)+" "+ampm);
+            else
+                setAlarmButton.setText(Integer.toString(h)+":"+Integer.toString(m)+" "+ampm);
+        }
     }
 
     public void setAlarm(View view) {

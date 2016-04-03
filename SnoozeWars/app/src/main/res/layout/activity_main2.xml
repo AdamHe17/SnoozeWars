@@ -22,13 +22,25 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Confirm"
-        android:id="@+id/button2"
+        android:id="@+id/confirmAlarm"
         android:textSize="20sp"
         android:textAllCaps="false"
-        android:paddingLeft="30dp"
-        android:paddingRight="30dp"
+        android:paddingLeft="28dp"
+        android:paddingRight="28dp"
         android:onClick="confirmAlarm"
         android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="70dp" />
+        android:layout_alignParentEnd="true" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Cancel"
+        android:textSize="20sp"
+        android:textAllCaps="false"
+        android:id="@+id/cancelAlarm"
+        android:paddingLeft="30dp"
+        android:paddingRight="30dp"
+        android:onClick="cancelAlarm"
+        android:layout_alignBottom="@+id/confirmAlarm"
+        android:layout_alignParentStart="true" />
 </RelativeLayout>

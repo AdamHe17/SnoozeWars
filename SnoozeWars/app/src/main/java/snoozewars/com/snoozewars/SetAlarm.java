@@ -37,17 +37,24 @@ public class SetAlarm extends AppCompatActivity {
         client = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
     }
 
+    public void cancelAlarm(View view) {
+        act.A.clearAlarm();
+        Intent intent = new Intent(this, MainActivity.class);
+        startActivity(intent);
+    }
+
     public void confirmAlarm(View view) {
         TimePicker alarmPicker = (TimePicker) findViewById(R.id.alarmPicker);
         int hour = alarmPicker.getCurrentHour();
         int min = alarmPicker.getCurrentMinute();
-        Log.d("hour: ", Integer.toString(hour));
-        Log.d("min: ", Integer.toString(min));
         act.A.setAlarm(hour, min);
         Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);
         Calendar c = Calendar.getInstance();
+        Log.d("hour", Integer.toString(act.A.hour));
+        Log.d("min", Integer.toString(act.A.min));
         if(act.A.isSet && act.A.hour==c.get(Calendar.HOUR_OF_DAY) && act.A.min==c.get(Calendar.MINUTE)) {
+            Log.d("success", "SUCCESS");
             try {
                 Uri alert =  RingtoneManager.getDefaultUri(RingtoneManager.TYPE_RINGTONE);
                 MediaPlayer mMediaPlayer = new MediaPlayer();
@@ -62,7 +69,6 @@ public class SetAlarm extends AppCompatActivity {
             } catch(Exception e) {
             }
         }
-
     }
 
     @Override
