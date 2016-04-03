@@ -28,6 +28,12 @@ public class AlarmDialogFragment extends DialogFragment {
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
+        try {
+            serverSocket = new ServerSocket(client_PORT);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
         // Use the Builder class for convenient dialog construction
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
 
@@ -91,6 +97,11 @@ public class AlarmDialogFragment extends DialogFragment {
 
         protected void onPostExecute(String result) {
             if (result == "snooze") {
+                try {
+                    serverSocket.close();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
                 DialogFragment dialog = new AlarmDialogFragment();
                 dialog.show(getFragmentManager(), "alarm");
             }

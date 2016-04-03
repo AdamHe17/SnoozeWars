@@ -10,6 +10,7 @@ import android.media.MediaPlayer;
 import android.media.Ringtone;
 import android.media.RingtoneManager;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.support.v4.app.FragmentActivity;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -21,6 +22,8 @@ import com.google.android.gms.appindexing.Action;
 import com.google.android.gms.appindexing.AppIndex;
 import com.google.android.gms.common.api.GoogleApiClient;
 
+import java.net.Socket;
+import java.nio.charset.Charset;
 import java.util.Calendar;
 
 public class SetAlarm extends AppCompatActivity {
@@ -31,6 +34,10 @@ public class SetAlarm extends AppCompatActivity {
      */
     private GoogleApiClient client;
     MainActivity act = new MainActivity();
+
+    private Socket socket;
+    private static final int PORT = 5000;
+    private static final String SERVER_IP = "10.9.174.184";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,6 +59,8 @@ public class SetAlarm extends AppCompatActivity {
         int hour = alarmPicker.getCurrentHour();
         int min = alarmPicker.getCurrentMinute();
 
+        new setTask().execute(hour, min);
+
         Intent startApplicationIntent = new Intent(getBaseContext(), StartAlarm.class);
         //startApplicationIntent.setFlags(PendingIntent.FLAG_UPDATE_CURRENT);
 
@@ -60,6 +69,22 @@ public class SetAlarm extends AppCompatActivity {
 
         AlarmManager mgr = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
         mgr.set(AlarmManager.RTC, System.currentTimeMillis() + 20000, intent);
+
+        startActivity(new Intent(this, MainActivity.class));
+    }
+
+    private class setTask extends AsyncTask<Integer, Void, Void> {
+        protected Void doInBackground(Integer... ints) {
+            try {
+                socket = new Socket(SERVER_IP, PORT);
+
+                String outMsg = "join " + ints[0].toString() + " " + ints[1].toString();
+                socket.getOutputStream().write(outMsg.getBytes(Charset.forName("UTF-8")));
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return null;
+        }
     }
 
     @Override

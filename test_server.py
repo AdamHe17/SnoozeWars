@@ -48,13 +48,18 @@ while True:
 	print data
 
 	if data[0:4] == 'join':		# 'join 0700'
-		time = data[-4:]
+		h, m = data.split(' ')[1:3]
 		if all(u.get_addr() != addr[0] for u in users):
-			users.append(AlarmDevice(addr[0], time))
+			users.append(AlarmDevice(addr[0], (h, m)))
 			findPair(users[-1], users[:-1])
+		else:
+			for u in users:
+				if u.get_addr() == addr[0]:
+					u.time = (h, m)
+					break
 		print len(users)
-		for p in users:
-			print p.addr, p.time, p.partner
+		for u in users:
+			print u.addr, u.time, u.partner
 	elif data == 'snooze':
 		if first:
 			first = False
