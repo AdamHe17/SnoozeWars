@@ -38,24 +38,29 @@
         android:layout_alignStart="@+id/setAlarmButton" />
 
     <Button
+        style="@style/Base.Widget.AppCompat.Button.Colored"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Set Alarm"
         android:id="@+id/setAlarmButton"
-        android:textSize="50sp"
+        android:textSize="60sp"
         android:textAllCaps="false"
+        android:textStyle="normal"
+        android:textColor="#FFFFFF"
+        android:focusable="true"
         android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:paddingLeft="50dip"
-        android:paddingRight="50dip"
-        android:onClick="setAlarm" />
+        android:paddingLeft="30dip"
+        android:paddingRight="30dip"
+        android:onClick="setAlarm"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentStart="true" />
 
     <EditText
         android:textSize="20sp"
         android:textColor="#0f0e0f"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Eric Hao"
+        android:text="Space Cat"
         android:id="@+id/textView"
         android:layout_below="@+id/imageView"
         android:layout_centerHorizontal="true" />
