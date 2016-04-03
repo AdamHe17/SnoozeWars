@@ -1,5 +1,8 @@
 package snoozewars.com.snoozewars;
 
+import android.app.AlarmManager;
+import android.app.DialogFragment;
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.media.AudioManager;
@@ -7,6 +10,7 @@ import android.media.MediaPlayer;
 import android.media.Ringtone;
 import android.media.RingtoneManager;
 import android.net.Uri;
+import android.support.v4.app.FragmentActivity;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -47,28 +51,15 @@ public class SetAlarm extends AppCompatActivity {
         TimePicker alarmPicker = (TimePicker) findViewById(R.id.alarmPicker);
         int hour = alarmPicker.getCurrentHour();
         int min = alarmPicker.getCurrentMinute();
-        act.A.setAlarm(hour, min);
-        Intent intent = new Intent(this, MainActivity.class);
-        startActivity(intent);
-        Calendar c = Calendar.getInstance();
-        Log.d("hour", Integer.toString(act.A.hour));
-        Log.d("min", Integer.toString(act.A.min));
-        if(act.A.isSet && act.A.hour==c.get(Calendar.HOUR_OF_DAY) && act.A.min==c.get(Calendar.MINUTE)) {
-            Log.d("success", "SUCCESS");
-            try {
-                Uri alert =  RingtoneManager.getDefaultUri(RingtoneManager.TYPE_RINGTONE);
-                MediaPlayer mMediaPlayer = new MediaPlayer();
-                mMediaPlayer.setDataSource(this, alert);
-                final AudioManager audioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
-                if (audioManager.getStreamVolume(AudioManager.STREAM_RING) != 0) {
-                    mMediaPlayer.setAudioStreamType(AudioManager.STREAM_RING);
-                    mMediaPlayer.setLooping(true);
-                    mMediaPlayer.prepare();
-                    mMediaPlayer.start();
-                }
-            } catch(Exception e) {
-            }
-        }
+
+        Intent startApplicationIntent = new Intent(getBaseContext(), StartAlarm.class);
+        //startApplicationIntent.setFlags(PendingIntent.FLAG_UPDATE_CURRENT);
+
+        PendingIntent intent = PendingIntent.getActivity(getApplication().getBaseContext(), 0,
+                startApplicationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+
+        AlarmManager mgr = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+        mgr.set(AlarmManager.RTC, System.currentTimeMillis() + 20000, intent);
     }
 
     @Override
