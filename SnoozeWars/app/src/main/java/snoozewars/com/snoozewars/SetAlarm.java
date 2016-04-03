@@ -74,6 +74,7 @@ public class SetAlarm extends AppCompatActivity {
                     mMediaPlayer.start();
                 }
             } catch(Exception e) {
+                e.printStackTrace();
             }
         }*/
 
