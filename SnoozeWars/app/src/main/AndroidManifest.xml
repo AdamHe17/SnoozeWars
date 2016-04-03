@@ -32,8 +32,9 @@
         <activity android:name=".SetAlarm" />
         <activity
             android:name=".StartAlarm"
+            android:showOnLockScreen="true"
             android:label="@string/title_activity_start_alarm"
-            android:theme="@style/Theme.AppCompat.Dialog"></activity>
+            android:theme="@style/DialogTheme"></activity>
     </application>
 
 </manifest>

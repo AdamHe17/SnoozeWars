@@ -19,7 +19,9 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.TextView;
 
 import java.net.ServerSocket;
 import java.net.Socket;
@@ -41,6 +43,10 @@ public class StartAlarm extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED);
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD);
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON);
         setContentView(R.layout.activity_start_alarm);
 
         try {
@@ -76,7 +82,12 @@ public class StartAlarm extends AppCompatActivity {
         });
     }
 
+    private void updateStatus(String status){
+        MainActivity.sStatus = status;
+    }
+
     private class snoozeTask extends AsyncTask<Void, Void, String> {
+
         protected String doInBackground(Void... voids) {
             try {
                 socket = new Socket(SERVER_IP, PORT);
@@ -84,11 +95,23 @@ public class StartAlarm extends AppCompatActivity {
                 String outMsg = "snooze";
                 socket.getOutputStream().write(outMsg.getBytes(Charset.forName("UTF-8")));
 
-                return outMsg;
+                byte[] buf = new byte[1024];
+                socket.getInputStream().read(buf);
+                String inMsg = new String(buf);
+                return inMsg;
             } catch (Exception e) {
                 e.printStackTrace();
             }
             return null;
+        }
+
+        protected void onPostExecute(String result){
+            AlertDialog alertDialog = new AlertDialog.Builder(StartAlarm.this).create();
+
+            if((result.substring(0,6)).compareTo("Winner") == 0){
+                updateStatus("Congratulations, you won!");
+            }
+
         }
     }
 
@@ -120,6 +143,10 @@ public class StartAlarm extends AppCompatActivity {
                 Log.d("done listening","restart activity");
                 Intent intent = getIntent();
                 startActivity(intent);
+            }
+            else if((result.substring(0,5)).compareTo("Loser") == 0){
+                updateStatus("Sorry, you've lost.");
+
             }
         }
     }
