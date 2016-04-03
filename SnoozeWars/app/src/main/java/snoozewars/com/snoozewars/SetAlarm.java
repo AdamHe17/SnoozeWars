@@ -51,7 +51,7 @@ public class SetAlarm extends AppCompatActivity {
         TimePicker alarmPicker = (TimePicker) findViewById(R.id.alarmPicker);
         int hour = alarmPicker.getCurrentHour();
         int min = alarmPicker.getCurrentMinute();
-
+        act.A.setAlarm(hour,min);
         Intent startApplicationIntent = new Intent(getBaseContext(), StartAlarm.class);
         //startApplicationIntent.setFlags(PendingIntent.FLAG_UPDATE_CURRENT);
 
@@ -60,6 +60,8 @@ public class SetAlarm extends AppCompatActivity {
 
         AlarmManager mgr = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
         mgr.set(AlarmManager.RTC, System.currentTimeMillis() + 20000, intent);
+        Intent intent2 = new Intent(this, MainActivity.class);
+        startActivity(intent2);
     }
 
     @Override
