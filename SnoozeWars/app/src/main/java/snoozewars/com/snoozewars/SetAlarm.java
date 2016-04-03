@@ -62,7 +62,7 @@ public class SetAlarm extends AppCompatActivity {
         Log.d("min",Integer.toString((cMin)));
 
         if(hour == cHour && min == cMin) {
-            total = 0;
+            total = 1;
         }
         else {
 
