@@ -11,6 +11,7 @@ import android.util.Log;
 import android.view.View;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.Button;
+import android.widget.TextView;
 
 import com.google.android.gms.appindexing.Action;
 import com.google.android.gms.appindexing.AppIndex;
@@ -34,6 +35,7 @@ public class MainActivity extends AppCompatActivity {
      * See https://g.co/AppIndexing/AndroidStudio for more information.
      */
     private GoogleApiClient client;
+    public static String sStatus = "Prepare for battle";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -103,5 +105,12 @@ public class MainActivity extends AppCompatActivity {
         );
         AppIndex.AppIndexApi.end(client, viewAction);
         client.disconnect();
+    }
+
+    @Override
+    protected void onResume(){
+        super.onResume();
+        TextView text = (TextView) findViewById(R.id.textView);
+        text.setText(sStatus);
     }
 }
