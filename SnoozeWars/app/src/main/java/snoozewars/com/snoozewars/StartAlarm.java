@@ -40,6 +40,8 @@ public class StartAlarm extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_start_alarm);
+
         try {
             alert =  RingtoneManager.getDefaultUri(RingtoneManager.TYPE_RINGTONE);
             mMediaPlayer = new MediaPlayer();
